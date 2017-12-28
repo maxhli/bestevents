@@ -1,14 +1,14 @@
 {
-  "name": "godb",
+  "name": "bestevents",
   "description": "Database for Go Programming Language",
   "keywords": [
-    "godb",
+    "bestevents",
     "go",
     "sample",
     "example"
   ],
   "image": "heroku/go:1.6",
-  "mount_dir": "src/github.com/heroku/godb",
-  "website": "http://github.com/heroku/godb",
-  "repository": "http://github.com/heroku/godb"
+  "mount_dir": "src/github.com/heroku/bestevents",
+  "website": "http://github.com/heroku/bestevents",
+  "repository": "http://github.com/heroku/bestevents"
 }

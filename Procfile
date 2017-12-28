@@ -1,1 +1,1 @@
-web: godb
+web: bestevents
