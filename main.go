@@ -11,8 +11,6 @@ import (
 
 	_ "github.com/lib/pq"
 
-	//"github.com/jinzhu/gorm"
-	//_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/gin-gonic/gin"
 	"fmt"
@@ -269,7 +267,7 @@ func main() {
 
 
 	router.GET("/books/create", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "books.create.tmpl.html", nil)
+		c.HTML(http.StatusOK, "events.create.tmpl.html", nil)
 	})
 
 	router.GET("/books/select/:id", func(c *gin.Context) {
@@ -296,7 +294,7 @@ func main() {
 		}
 
 
-		c.HTML(http.StatusOK, "books.select.tmpl.html", bk)
+		c.HTML(http.StatusOK, "events.select.tmpl.html", bk)
 	})
 
 	router.POST("/books/create", func(c *gin.Context) {
@@ -314,7 +312,7 @@ func main() {
 
 		if errInsert != nil {
 			log.Println("DB Insertion is in error.")
-			c.HTML(http.StatusOK, "books.create_error.tmpl.html", errInsert)
+			c.HTML(http.StatusOK, "events.create_error.tmpl.html", errInsert)
 		} else {
 			log.Println("DB Insertion successful.")
 			rows, err := db.Query("SELECT * FROM books order by isbn")
@@ -333,7 +331,7 @@ func main() {
 				bks = append(bks, bk)
 			}
 
-			c.HTML(http.StatusOK, "books.create_ok.tmpl.html", nil)
+			c.HTML(http.StatusOK, "events.create_ok.tmpl.html", nil)
 
 		}
 
@@ -367,7 +365,7 @@ func main() {
 			// need to trim it
 			//bk.Isbn = strings.TrimSpace(bk.Isbn)
 		}
-		c.HTML(http.StatusOK, "books.update.tmpl.html", bk)
+		c.HTML(http.StatusOK, "events.update.tmpl.html", bk)
 
 	})
 
@@ -400,7 +398,7 @@ func main() {
 
 
 
-		c.HTML(http.StatusOK, "books.update_post.tmpl.html", id)
+		c.HTML(http.StatusOK, "events.update_post.tmpl.html", id)
 
 	})
 
@@ -410,7 +408,7 @@ func main() {
 		bk := new(Book)
 		bk.Isbn = id
 
-		c.HTML(http.StatusOK, "books.delete.tmpl.html", bk)
+		c.HTML(http.StatusOK, "events.delete.tmpl.html", bk)
 
 	})
 
@@ -436,14 +434,11 @@ func main() {
 		checkErr(err3)
 		fmt.Println("rowsAffected is: ", rowsAffected)
 
-		c.HTML(http.StatusOK, "books.delete_post.tmpl.html", id)
+		c.HTML(http.StatusOK, "events.delete_post.tmpl.html", id)
 
 	})
 
 
-	router.GET("/onlinetraces", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "onlinetraces.tmpl.html", nil)
-	})
 
 	router.GET("/traces", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "onlinetraces.tmpl.html", nil)
@@ -453,124 +448,52 @@ func main() {
 		c.HTML(http.StatusOK, "fileupload.tmpl.html", nil)
 	})
 
-	router.GET("/online", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "onlinetraces.tmpl.html", nil)
-	})
 
 	//router.GET("/repeat", repeatHandler)
 	// the above one causes problem. Max Li
 
-	router.POST("/fileupload", func(c *gin.Context) {
-
-		// single file
-		file, _ := c.FormFile("file")
-		log.Println("The file name is: ", file.Filename)
-
-		emailAddress := c.PostForm("email_address")
-		log.Println("The email address is: ", emailAddress)
-		cellPhoneNumber := c.PostForm("cell_phone_number")
-		log.Println("The cell phone number is: ", cellPhoneNumber)
-
-		var bucket, key string
-		var timeout time.Duration
-
-		timeout = 60 * time.Minute
-
-		//bucket = os.Getenv("BUCKET-NAME")
-		//key = os.Getenv("S3-KEY")
-		AWS_ACCESS_KEY_ID :=
-			os.Getenv("AWS-ACCESS-KEY-ID")
-		AWS_SECRET_ACCESS_KEY :=
-			os.Getenv("AWS-SECRET-ACCESS-KEY")
-
-		// If you're working with temporary security credentials,
-		// you can also keep the session token in AWS_SESSION_TOKEN.
-		token := ""
-		creds := credentials.NewStaticCredentials(
-			AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, token)
-
-		_, errCred := creds.Get()
-		if errCred != nil {
-			log.Fatal(errCred)
-		}
-
-		bucket = "ithreeman"
-		// key is the same as file name to be stored
-		key = ""
-
-		sess := session.Must(session.NewSession(
-			&aws.Config{
-				Region:      aws.String(endpoints.UsEast2RegionID),
-				Credentials: creds,
-			}))
-		// Create a new instance of the service's client with a Session.
-		// Optional aws.Config values can also be provided as variadic arguments
-		// to the New function. This option allows you to provide service
-		// specific configuration.
-		svc := s3.New(sess)
-
-		// Create a context with a timeout that will abort the upload if it takes
-		// more than the passed in timeout.
-		ctx := context.Background()
-		var cancelFn func()
-		if timeout > 0 {
-			ctx, cancelFn = context.WithTimeout(ctx, timeout)
-		}
-		// Ensure the context is canceled to prevent leaking.
-		// See context package for more information, https://golang.org/pkg/context/
-		defer cancelFn()
-
-		//f, errOpen  := os.Open(file.Filename)
-		f, errOpen := file.Open()
-		if errOpen != nil {
-			log.Fatalf("failed to open file %q, %v",
-				file.Filename, errOpen)
-		}
-
-		key = file.Filename
-
-		// Uploads the object to S3. The Context will interrupt the request if the
-		// timeout expires.
-		_, err := svc.PutObjectWithContext(ctx, &s3.PutObjectInput{
-			Bucket: aws.String(bucket),
-			Key:    aws.String(key),
-			Body:   f,
-		})
-		if err != nil {
-			aerr, ok := err.(awserr.Error);
-			if ok && aerr.Code() ==
-				request.CanceledErrorCode {
-				// If the SDK can determine the request or retry delay was canceled
-				// by a context the CanceledErrorCode error code will be returned.
-				log.Fatalf("upload canceled due to timeout, %v\n", err)
-			} else {
-				log.Fatalf("failed to upload object, %v\n", err)
-			}
-		}
-
-		log.Printf("successfully uploaded file to %s/%s\n", bucket, key)
-
-		c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
-	})
-
 
 	router.GET("/", func(c *gin.Context) {
 		//c.HTML(http.StatusOK, "index.tmpl.html", data)
-		rows, err := db.Query("SELECT * FROM books order by isbn")
+		rows, err := db.Query("SELECT * FROM events order by start_dt desc")
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer rows.Close()
-		bks := make([]*Book, 0)
+
+		events := make([]*Event, 0)
 		for rows.Next() {
-			bk := new(Book)
-			err := rows.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price)
+			log.Println("point 3")
+			event := new(Event)
+			err := rows.Scan(
+				&event.EventNum,
+				&event.EventName,
+				&event.EventOrganization,
+				&event.OrganizationStreet,
+				&event.OrganizationCity,
+				&event.OrganizationState,
+				&event.OrganizationZip,
+				&event.ContactName1,
+				&event.ContactCellphone1,
+				&event.ContactName2,
+				&event.ContactCellphone2,
+				&event.StartDt,
+				&event.EndDt,
+				&event.Speaker,
+				&event.Title,
+				&event.NumOfAttendees,
+				&event.ArrangedBy)
+
 			if err != nil {
 				log.Fatal(err)
 			}
-			bks = append(bks, bk)
+			events = append(events, event)
 		}
-		c.HTML(http.StatusOK, "index.tmpl.html", bks)
+		if err = rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		c.HTML(http.StatusOK, "index.tmpl.html", events)
 
 	})
 

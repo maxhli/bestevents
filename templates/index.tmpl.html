@@ -28,16 +28,13 @@
       <thead>
       <tr >
           <th class="text-center">
-              ISBN
+              Event Date/Time
           </th>
           <th class="text-center">
-              Title
+              Event Name
           </th>
           <th class="text-center">
-              Author
-          </th>
-          <th class="text-center">
-              Price
+              Event Organization
           </th>
           <th class="text-center">
               Actions
@@ -48,33 +45,43 @@
 
       {{range .}}
     <tr>
+        <td>
+        {{ if .StartDt.Valid }}
+            {{ .StartDt.String}}
+        {{ else }}
+            &nbsp;
+        {{ end }}
+        </td>
       <td>
-        {{.Isbn}}
+      {{ if .EventName.Valid }}
+            {{ .EventName.String}}
+        {{ else }}
+          &nbsp;
+      {{ end }}
       </td>
       <td>
-        {{.Title}}
+      {{ if .EventOrganization.Valid }}
+            {{ .EventOrganization.String}}
+        {{ else }}
+          &nbsp;
+      {{ end }}
       </td>
-      <td>
-        {{.Author}}
-      </td>
-      <td>
-        {{.Price}}
-      </td>
+
 
         <td class="text-center">
             <a class ="btn btn-primary"
-               href="/books/select/{{.Isbn}}">
+               href="/books/select/{{.EventNum.Int64}}">
                 <i class="icon-lg ion-more"
                    title="More...">
                 </i></a>
             <a class ="btn btn-warning"
-               href="/books/update/{{.Isbn}}">
+               href="/books/update/{{.EventNum.Int64}}">
                 <i class="icon-lg ion-edit"
                    title="Edit">
                 </i>
             </a>
             <a class ="btn btn-danger"
-               href="/books/delete/{{.Isbn}}">
+               href="/books/delete/{{.EventNum.Int64}}">
                 <i class="icon-lg ion-close-round"
                    title="Delete">
                 </i>
