@@ -15,17 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"fmt"
 
-	"context"
-	"time"
 	_ "io/ioutil"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/request"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/aws/endpoints"
-	"github.com/aws/aws-sdk-go/aws/credentials"
 
 	_ "github.com/jinzhu/gorm"
 	_ "github.com/gin-gonic/gin"
