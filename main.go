@@ -32,33 +32,39 @@ import (
 	_ "github.com/jinzhu/gorm"
 	_ "github.com/gin-gonic/gin"
 	_ "github.com/aws/aws-sdk-go/private/protocol"
-	"strings"
+	_ "strings"
 	_ "strconv"
 	"strconv"
 )
 
-type Product struct {
-	// gorm.Model
-	Code     string
-	Price    uint
-	Fullname string
-	Email    string
+
+type Event struct {
+	EventNum   sql.NullInt64
+	EventName  sql.NullString
+	EventOrganization sql.NullString
+	OrganizationStreet sql.NullString
+	OrganizationCity sql.NullString
+	OrganizationState sql.NullString
+	OrganizationZip sql.NullString
+	ContactName1 sql.NullString
+	ContactCellphone1 sql.NullString
+	ContactName2 sql.NullString
+	ContactCellphone2 sql.NullString
+	StartDt sql.NullString
+	EndDt sql.NullString
+	Speaker sql.NullString
+	Title sql.NullString
+	NumOfAttendees sql.NullInt64
+	ArrangedBy sql.NullString
 }
 
 type Book struct {
-	Isbn   string
-	Title  string
-	Author string
-	Price  float32
-}
 
-//func repeatHandler(c *gin.Context) {
-//	var buffer bytes.Buffer
-//	for i := 0; i < repeat; i++ {
-//		buffer.WriteString("Hello from Go!\n")
-//	}
-//	c.String(http.StatusOK, buffer.String())
-//}
+	Isbn string
+	Title string
+	Author string
+	Price float32
+}
 
 
 func checkErr(err error) {
@@ -71,13 +77,14 @@ func main() {
 
 	// 		"host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword")
 
-	var args string
-	args += "host=" + os.Getenv("myhost") + " "
-	args += "user=" + os.Getenv("user") + " "
-	args += "dbname=" + os.Getenv("dbname") + " "
-	args += "sslmode=disable "
-	args += "password=" + os.Getenv("password")
-	log.Println("args is: ", args)
+	//var args string
+
+	//args += "host=" + os.Getenv("myhost") + " "
+	//args += "user=" + os.Getenv("user") + " "
+	//args += "dbname=" + os.Getenv("dbname") + " "
+	//args += "sslmode=disable "
+	//args += "password=" + os.Getenv("password")
+	//log.Println("args is: ", args)
 
 	var URI = os.Getenv("URI")
 
@@ -87,72 +94,161 @@ func main() {
 	if errDB != nil {
 		log.Fatalf("Error connecting to the DB")
 	} else {
-		log.Println("Connection is successful!")
+		log.Println("Connection is good!")
 	}
 
-	rows, errQuery := db.Query(`SELECT 123 * 321 as result `)
-	if errQuery != nil {
-		log.Println(errQuery)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var result int
-		if err := rows.Scan(&result); err != nil {
-			log.Fatal(err)
-
-		}
-		log.Printf("Result is %d\n", result)
-	}
-
-	//isbn := uuid.NewV4()
-	//title := "I am good"
-	//author := "Max Li"
-	//price := 10.0
-	////////////////////////////
-	//_, errInsert := db.
-	//Exec("INSERT INTO books VALUES($1, $2, $3, $4)",
-	//	isbn, title, author, price)
-	//
-	//if errInsert != nil {
-	//	log.Println("DB Insertion is in error.")
-	//} else {
-	//	log.Println("DB Insertion successful.")
-	//}
-
-	/////////////////////////
-	//////////////////////////////////////
-	rows, err := db.Query("SELECT * FROM books")
+	rows, err := db.Query("SELECT * FROM events")
 	if err != nil {
+		log.Println("point 1")
 		log.Fatal(err)
 	}
 	defer rows.Close()
 
-	bks := make([]*Book, 0)
+	events := make([]*Event, 0)
 	for rows.Next() {
-		bk := new(Book)
-		err := rows.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price)
+		log.Println("point 2")
+		event := new(Event)
+		err := rows.Scan(
+			&event.EventNum,
+			&event.EventName,
+		    &event.EventOrganization,
+		    &event.OrganizationStreet,
+			&event.OrganizationCity,
+			&event.OrganizationState,
+			&event.OrganizationZip,
+			&event.ContactName1,
+			&event.ContactCellphone1,
+			&event.ContactName2,
+			&event.ContactCellphone2,
+			&event.StartDt,
+			&event.EndDt,
+			&event.Speaker,
+			&event.Title,
+			&event.NumOfAttendees,
+			&event.ArrangedBy)
+
 		if err != nil {
 			log.Fatal(err)
 		}
-		bks = append(bks, bk)
+		events = append(events, event)
 	}
 	if err = rows.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	for _, bk := range bks {
-		log.Printf("%s, %s, %s, £%.2f\n",
-			strings.TrimSpace(bk.Isbn),
-			bk.Title, bk.Author, bk.Price)
+	for _, event := range events {
+		if event.EventNum.Valid {
+			log.Print(event.EventNum.Int64)
+		} else {
+			log.Print("event.EventNum is NULL")
+		}
+
+
+		if event.EventName.Valid {
+			log.Print(event.EventName.String)
+		} else {
+			log.Print("event.EventName is NULL")
+		}
+
+		if event.EventOrganization.Valid {
+			log.Print(event.EventOrganization.String)
+		} else {
+			log.Print("event.EventOrganization is NULL")
+		}
+
+		if event.OrganizationStreet.Valid {
+			log.Print(event.OrganizationStreet.String)
+		} else {
+			log.Print("event.OrganizationStreet is NULL")
+		}
+
+		if event.OrganizationCity.Valid {
+			log.Print(event.OrganizationCity.String)
+		} else {
+			log.Print("event.OrganizationCity is NULL")
+		}
+
+		if event.OrganizationState.Valid {
+			log.Print(event.OrganizationState.String)
+		} else {
+			log.Print("event.OrganizationState is NULL")
+		}
+
+		if event.OrganizationZip.Valid {
+			log.Print(event.OrganizationZip.String)
+		} else {
+			log.Print("event.OrganizationZip is NULL")
+		}
+
+		if event.ContactName1.Valid {
+			log.Print(event.ContactName1.String)
+		} else {
+			log.Print("event.ContactName1 is NULL")
+		}
+
+		if event.ContactCellphone1.Valid {
+			log.Print(event.ContactCellphone1.String)
+		} else {
+			log.Print("event.ContactCellphone1 is NULL")
+		}
+
+
+		if event.ContactName2.Valid {
+			log.Print(event.ContactName2.String)
+		} else {
+			log.Print("event.ContactName2 is NULL")
+		}
+
+		if event.ContactCellphone2.Valid {
+			log.Print(event.ContactCellphone2.String)
+		} else {
+			log.Print("event.ContactCellphone2 is NULL")
+		}
+
+		if event.StartDt.Valid {
+			log.Print(event.StartDt.String)
+		} else {
+			log.Print("event.StartDt is NULL")
+		}
+
+		if event.EndDt.Valid {
+			log.Print(event.EndDt.String)
+		} else {
+			log.Print("event.EndDt is NULL")
+		}
+
+		if event.Speaker.Valid {
+			log.Print(event.Speaker.String)
+		} else {
+			log.Print("event.Speaker is NULL")
+		}
+
+		if event.Title.Valid {
+			log.Print(event.Title.String)
+		} else {
+			log.Print("event.Title is NULL")
+		}
+
+
+		if event.NumOfAttendees.Valid {
+			log.Print(event.NumOfAttendees.Int64)
+		} else {
+			log.Print("event.NumOfAttendees is NULL")
+		}
+
+		if event.ArrangedBy.Valid {
+			log.Print(event.ArrangedBy.String)
+		} else {
+			log.Print("event.ArrangedBy is NULL")
+		}
+
+
+
+
+
 	}
 
-	//////////////////////////////////////
-	//if !db.HasTable("products") {
-	//	db.CreateTable(&Product{})
-	//	db.AutoMigrate(&Product{})
-	//
-	//}
+
 
 	// All clients require a Session. The Session provides the client with
 	// shared configuration such as region, endpoint, and credentials. A
@@ -374,23 +470,6 @@ func main() {
 		log.Println("The email address is: ", emailAddress)
 		cellPhoneNumber := c.PostForm("cell_phone_number")
 		log.Println("The cell phone number is: ", cellPhoneNumber)
-
-		//db.Create(&Product{Code: "L1212", Price: 1000, Email: emailAddress })
-
-		// Read
-		//var product Product
-		//db.First(&product, 1) // find product with id 1
-		//db.First(&product, "code = ?", "L1212") // find product with code l1212
-		//
-		//// Update - update product's price to 2000
-		//db.Model(&product).Update("Price", 2000)
-		//
-		//var product2 Product
-		//db.First(&product2, "code = ?", "L1212")
-		//
-		//log.Println("Retrived email address is:", product2.Email)
-		//(file.Open())
-		//	rawData, err1 := ioutil.ReadAll(file.Open())
 
 		var bucket, key string
 		var timeout time.Duration
