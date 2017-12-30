@@ -64,17 +64,6 @@ func checkErr(err error) {
 
 func main() {
 
-	// 		"host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword")
-
-	//var args string
-
-	//args += "host=" + os.Getenv("myhost") + " "
-	//args += "user=" + os.Getenv("user") + " "
-	//args += "dbname=" + os.Getenv("dbname") + " "
-	//args += "sslmode=disable "
-	//args += "password=" + os.Getenv("password")
-	//log.Println("args is: ", args)
-
 	var URI = os.Getenv("URI")
 
 	db, errDB := sql.Open("postgres", URI)
@@ -257,70 +246,73 @@ func main() {
 	router.Static("/static", "static")
 
 
-	router.GET("/books/create", func(c *gin.Context) {
+	router.GET("/events/create", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "events.create.tmpl.html", nil)
 	})
 
-	router.GET("/books/select/:id", func(c *gin.Context) {
+	router.GET("/events/select/:id", func(c *gin.Context) {
 
 
 		id := c.Param("id")
-		//value, _ := strconv.Atoi(id)
 
-		rows, err := db.Query("SELECT * FROM books where ISBN = $1", id)
+		rows, err := db.Query("SELECT * FROM events where event_num = $1", id)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer rows.Close()
 
-		bk := new(Book)
+		event := new(Event)
 
 		for rows.Next() {
-			err := rows.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price)
+			err := rows.Scan(
+				&event.EventNum,
+				&event.EventName,
+				&event.EventOrganization,
+				&event.OrganizationStreet,
+				&event.OrganizationCity,
+				&event.OrganizationState,
+				&event.OrganizationZip,
+				&event.ContactName1,
+				&event.ContactCellphone1,
+				&event.ContactName2,
+				&event.ContactCellphone2,
+				&event.StartDt,
+				&event.EndDt,
+				&event.Speaker,
+				&event.Title,
+				&event.NumOfAttendees,
+				&event.ArrangedBy)
+
 			if err != nil {
 				log.Fatal(err)
 			}
-			// need to trim it
-			//bk.Isbn = strings.TrimSpace(bk.Isbn)
 		}
 
 
-		c.HTML(http.StatusOK, "events.select.tmpl.html", bk)
+		c.HTML(http.StatusOK, "events.select.tmpl.html", event)
 	})
 
-	router.POST("/books/create", func(c *gin.Context) {
-		Isbn := c.PostForm("Isbn")
-		Author := c.PostForm("Author")
-		Title := c.PostForm("Title")
-		Price := c.PostForm("Price")
+	router.POST("/events/create", func(c *gin.Context) {
+		Event_Name := c.PostForm("Event_Name")
+		Event_Organization := c.PostForm("Event_Organization")
+		Organization_Street := c.PostForm("Organization_Street")
+		Start_DT := c.PostForm("Start_DT")
 
-
-		val, _ := strconv.ParseFloat(Price, 32)
 
 		_, errInsert := db.
-		Exec("INSERT INTO books(isbn, title, author, price) VALUES($1, $2, $3, $4)",
-			Isbn, Title, Author, val)
+		Exec("INSERT INTO events(event_name," +
+			" event_organization, organization_street," +
+				" start_dt) VALUES($1, $2, $3, $4)",
+			Event_Name,
+			Event_Organization,
+		    Organization_Street,
+		    Start_DT)
 
 		if errInsert != nil {
 			log.Println("DB Insertion is in error.")
 			c.HTML(http.StatusOK, "events.create_error.tmpl.html", errInsert)
 		} else {
 			log.Println("DB Insertion successful.")
-			rows, err := db.Query("SELECT * FROM books order by isbn")
-			if err != nil {
-				log.Fatal(err)
-			}
-			defer rows.Close()
-
-			bks := make([]*Book, 0)
-			for rows.Next() {
-				bk := new(Book)
-				err := rows.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price)
-				if err != nil {
-					log.Fatal(err)
-				}
-				bks = append(bks, bk)
-			}
 
 			c.HTML(http.StatusOK, "events.create_ok.tmpl.html", nil)
 
@@ -336,50 +328,62 @@ func main() {
 
 
 
-	router.GET("/books/update/:id", func(c *gin.Context) {
+	router.GET("/events/update/:id", func(c *gin.Context) {
 		id := c.Param("id")
-		//value, _ := strconv.Atoi(id)
 
-		rows, err := db.Query("SELECT * FROM books where ISBN = $1", id)
+		rows, err := db.Query("SELECT * FROM events where event_num = $1", id)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer rows.Close()
 
-		bk := new(Book)
+		event := new(Event)
 
 		for rows.Next() {
-			err := rows.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price)
+			err := rows.Scan(
+				&event.EventNum,
+				&event.EventName,
+				&event.EventOrganization,
+				&event.OrganizationStreet,
+				&event.OrganizationCity,
+				&event.OrganizationState,
+				&event.OrganizationZip,
+				&event.ContactName1,
+				&event.ContactCellphone1,
+				&event.ContactName2,
+				&event.ContactCellphone2,
+				&event.StartDt,
+				&event.EndDt,
+				&event.Speaker,
+				&event.Title,
+				&event.NumOfAttendees,
+				&event.ArrangedBy)
+
 			if err != nil {
 				log.Fatal(err)
 			}
-			// need to trim it
-			//bk.Isbn = strings.TrimSpace(bk.Isbn)
 		}
-		c.HTML(http.StatusOK, "events.update.tmpl.html", bk)
+		c.HTML(http.StatusOK, "events.update.tmpl.html", event)
 
 	})
 
-	router.POST("/books/update/:id", func(c *gin.Context) {
-		//c.HTML(http.StatusOK, "index.tmpl.html", data)
-		id := c.PostForm("id")
+	router.POST("/events/update/:id", func(c *gin.Context) {
 
-		Isbn := c.PostForm("Isbn")
-		Author := c.PostForm("Author")
-		Title := c.PostForm("Title")
-		Price := c.PostForm("Price")
+		id := c.PostForm("id")
+		idInteger, err := strconv.Atoi(id)
+
+
+		Event_Name := c.PostForm("Event_Name")
+		Start_Dt := c.PostForm("Start_Dt")
+
 
 		// Update
 		stmt, err := db.Prepare(
-			"update BOOKs set Author = $1, Title = $2, Price = $3 where ISBN=$4")
+			"update events set event_name = $1, start_dt = $2 where event_num=$3")
 		checkErr(err)
 		fmt.Println("statement is: ", stmt)
 
-		val, err := strconv.ParseFloat(Price, 32)
-
-		fmt.Println("Author, Title, val, Isbn are: ", Author, Title, val, Isbn)
-
-		res, err2 := stmt.Exec(Author, Title, val, Isbn)
+		res, err2 := stmt.Exec(Event_Name, Start_Dt, idInteger)
 		checkErr(err2)
 		defer stmt.Close()
 
@@ -387,37 +391,36 @@ func main() {
 		checkErr(err3)
 		fmt.Println("rowsAffected is: ", rowsAffected)
 
-
-
 		c.HTML(http.StatusOK, "events.update_post.tmpl.html", id)
 
 	})
 
-	router.GET("/books/delete/:id", func(c *gin.Context) {
+	router.GET("/events/delete/:id", func(c *gin.Context) {
 		id := c.Param("id")
+		idInteger, err := strconv.Atoi(id)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		bk := new(Book)
-		bk.Isbn = id
+		event := new(Event)
+		event.EventNum = sql.NullInt64{
+			Int64: int64(idInteger), Valid: true}
 
-		c.HTML(http.StatusOK, "events.delete.tmpl.html", bk)
+		c.HTML(http.StatusOK, "events.delete.tmpl.html", event)
 
 	})
 
-	router.POST("/books/delete/:id", func(c *gin.Context) {
-		//c.HTML(http.StatusOK, "index.tmpl.html", data)
+	router.POST("/events/delete/:id", func(c *gin.Context) {
+
 		id := c.Param("id")
-
-		Isbn := id
-
-		// Update
-		stmt, err := db.Prepare(
-			"delete from BOOKs where ISBN=$1")
+		idInteger, err := strconv.Atoi(id)
 		checkErr(err)
-		fmt.Println("statement is: ", stmt)
 
-		fmt.Println("ISBN is: ", Isbn)
+		stmt, err := db.Prepare(
+			"delete from events where event_num=$1")
+		checkErr(err)
 
-		res, err2 := stmt.Exec(Isbn)
+		res, err2 := stmt.Exec(idInteger)
 		checkErr(err2)
 		defer stmt.Close()
 
@@ -446,7 +449,7 @@ func main() {
 
 	router.GET("/", func(c *gin.Context) {
 		//c.HTML(http.StatusOK, "index.tmpl.html", data)
-		rows, err := db.Query("SELECT * FROM events order by start_dt desc")
+		rows, err := db.Query("SELECT * FROM events order by start_dt desc, event_num desc")
 		if err != nil {
 			log.Fatal(err)
 		}

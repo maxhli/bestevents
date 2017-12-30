@@ -1,7 +1,3 @@
-
-
-
-
 <head>
     <title></title>
 
@@ -34,65 +30,78 @@
         <div class="col-md-12">
 
             <div>
-                <h3 class="text-center">Use this form to update a book.
+                <h3 class="text-center">Use this form to update an event.
                     Clicking on "Back to the list" does not update anything.</h3>
             </div>
-            <form action="/books/update/{{.Isbn}}" method="post">
-                <div>
+            <form action="/events/update/{{.EventNum.Int64}}" method="post">
 
-        <span class="right20percent">
-            <label for="id_Isbn">ISBN:</label>
-        </span>
-                    <input id="id_Isbn" maxlength="254"
-                           name="Isbn" type="text" value="{{ .Isbn }}" />
-                    <span class="helptext">ISBN</span>
-                </div>
-                <div>
 
-        <span class="right20percent">
-             <label for="id_Title">Title:</label>
-        </span>
-                    <input id="id_Title" maxlength="255"
-                           name="Title" type="text" value="{{ .Title }}" />
-                    <span class="helptext">Title
-        </span>
-                </div>
-                <div>
-
-        <span class="right20percent">
-            <label for="id_Author">Author:</label>
-        </span>
-                    <input id="id_Author" maxlength="255"
-                           name="Author" type="text" value="{{.Author}}" />
-                    <span class="helptext">Author        </span>
-                </div>
-                <div>
-
-        <span class="right20percent">
-            <label for="id_price">
-                Email:
-            </label>
-        </span>
-                    <input id="id_price" maxlength="255"
-                           name="Price" type="text" value="{{.Price}}" />
-                    <span class="helptext">Price
-        </span>
+                <div style="padding-bottom: 10px">
+                    <span class="right20percent">
+                        <label for="id_Event_Name"
+                               style="display: inline-block;
+                               width: 140px;
+                               text-align: right;">
+                            Event Name:</label>
+                    </span>
+                    <td>
+                    {{ if .EventName.Valid }}
+                        <input id="id_Event_Name"
+                               maxlength="254"
+                               name="Event_Name"
+                               type="text"
+                               value="{{.EventName.String}}"/>
+                    {{ else }}
+                        <input id="id_Event_Name"
+                               maxlength="254"
+                               name="Event_Name"
+                               type="text"
+                               value="&nbsp;&nbsp;"/>
+                    {{ end }}
+                    </td>
                 </div>
 
-                <div>
-        <span class="right20percent">
-            <input type="submit" value="Save" />
-        </span>
+                <div style="padding-bottom: 10px">
+                    <span class="right20percent">
+                        <label for="id_Start_Dt"
+                               style="display: inline-block;
+                               width: 140px;
+                               text-align: right;">
+                            Start Date/Time:</label>
+                    </span>
+                    <td>
+                    {{ if .StartDt.Valid }}
+                        <input id="id_Start_Dt"
+                               maxlength="254"
+                               name="Start_Dt"
+                               type="text"
+                               value="{{.StartDt.String}}"/>
+                    {{ else }}
+                        <input id="id_Start_Dt"
+                               maxlength="254"
+                               name="Start_Dt"
+                               type="text"
+                               value="&nbsp;&nbsp;"/>
+                    {{ end }}
+                    </td>
+                </div>
+
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                        <input type="submit" value="Update Now!" />
+                    </span>
                 </div>
 
             </form>
 
             <div>
-        <span class="right20percent">
-            <a class="text-center btn btn-primary"
-               href="/">
-                Back to the main page</a>
-        </span>
+                <span class="right30percent">
+                    <a class="text-center btn btn-primary"
+                       href="/">
+                        Back to the main page</a>
+                </span>
             </div>
 
 

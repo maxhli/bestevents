@@ -1,16 +1,11 @@
-
-
-
-
 <head>
-    <title>Create a new book</title>
+    <title>Add a New Exciting Event</title>
 
     <meta name="keywords" content=
-            "new password manager, hint, password hint, password, username, website name, password manager"
+            "Events"
     />
     <meta name="description" content=
-            "Free Password Manager based on hints. No math encryption, just human encryption">
-
+            "manage events in one central location. No more emails back and forth">
 
 
     <link rel="icon" type="image/x-icon"
@@ -39,61 +34,216 @@
         <div class="col-md-12">
 
             <div>
-                <h3 class="text-center">Use this form to Create a book.
-                    Clicking on "Back to the list" does not update anything.</h3>
+                <h3 class="text-center">Use this form to
+                    add a new event.
+                    Clicking on "Back to the list"
+                    does not create anything.</h3>
             </div>
-            <form action="/books/create" method="post">
+            <form action="/events/create" method="post">
                 <div style="margin-top:10px">
 
-        <span class="right20percent">
-            <label for="id_Isbn" class="floating-box">ISBN:</label>
-        </span>
-                    <input id="id_Isbn" maxlength="254"
-                           name="Isbn" type="text" value="" />
-                    <span class="helptext">ISBN</span>
-                </div>
-                <div style="margin-top:10px">
-
-        <span class="right20percent">
-             <label for="id_Title" class="floating-box">Title:</label>
-        </span>
-                    <input id="id_Title" maxlength="255"
-                           name="Title" type="text" value="" />
-                    <span class="helptext">Title
-        </span>
-                </div>
-                <div style="margin-top:10px">
-
-        <span class="right20percent">
-            <label for="id_Author" class="floating-box">Author:</label>
-        </span>
-                    <input id="id_Author" maxlength="255"
-                           name="Author" type="text" value="" />
-                    <span class="helptext">Author        </span>
-                </div>
-                <div style="margin-top:10px">
-
-        <span class="right20percent">
-            <label for="id_price" class="floating-box">
-                Price:
-            </label>
-        </span>
-                    <input id="id_price" maxlength="255"
-                           name="Price" type="text" value="" />
-                    <span class="helptext">Price
-        </span>
+                    <span class="right30percent">
+                        <label for="id_Event_Name"
+                               class="floating-box">
+                            Event Name:</label>
+                    </span>
+                    <input id="id_Event_Name" maxlength="255"
+                           name="Event_Name" type="text" value="" REQUIRED/>
+                    <span class="helptext">
+                        Event Name (REQUIRED)</span>
                 </div>
 
                 <div style="margin-top:10px">
-        <span class="right20percent">
-            <input type="submit" value="Create" />
+                    <span class="right30percent">
+                         <label for="id_Event_Organization"
+                                class="floating-box">
+                             Event Organization:</label>
+                    </span>
+                                <input id="id_Event_Organization"
+                                       maxlength="255"
+                                       name="Event_Organization"
+                                       type="text"
+                                       value="" />
+                                <span class="helptext">
+                                    Organizations that hosts the event
+                    </span>
+                </div>
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Organization_Street"
+                                class="floating-box">
+                              Organization Street:</label>
+                    </span>
+                    <input id="id_Organization_Street"
+                           maxlength="255"
+                           name="Organization_Street"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                    Street of the organization
+                    </span>
+                </div>
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Organization_City"
+                                class="floating-box">
+                              Organization City:</label>
+                    </span>
+                    <input id="id_Organization_City"
+                           maxlength="255"
+                           name="Organization_City"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                     City of the organization
+                    </span>
+                </div>
+
+
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Organization_State"
+                                class="floating-box">
+                              Organization State:</label>
+                    </span>
+                    <input id="id_Organization_State"
+                           maxlength="255"
+                           name="Organization_State"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                     State of the organization
+                    </span>
+                </div>
+
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Organization_Zip"
+                                class="floating-box">
+                              Zip code of the organization:
+                         </label>
+                    </span>
+                    <input id="id_Organization_Zip"
+                           maxlength="255"
+                           name="Organization_Zip"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                     Zip of the organization
+                    </span>
+                </div>
+
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Contact_Name1"
+                                class="floating-box">
+                              Name of the contact person1:
+                         </label>
+                    </span>
+                    <input id="id_Contact_Name1"
+                           maxlength="255"
+                           name="Contact_Name1"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                     Name of the contact person1
+                    </span>
+                </div>
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Contact_Cellphone1"
+                                class="floating-box">
+                              Cell phone number of the contact person1:
+                         </label>
+                    </span>
+                    <input id="id_Contact_Cellphone1"
+                           maxlength="255"
+                           name="Contact_Cellphone1"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                    Cell phone number of the contact person1
+                    </span>
+                </div>
+
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Contact_Name1"
+                                class="floating-box">
+                              Name of the contact person1:
+                         </label>
+                    </span>
+                    <input id="id_Contact_Name1"
+                           maxlength="255"
+                           name="Contact_Name1"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                     Name of the contact person1
+                    </span>
+                </div>
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Contact_Cellphone2"
+                                class="floating-box">
+                              Cell phone number of the contact person2:
+                         </label>
+                    </span>
+                    <input id="id_Contact_Cellphone2"
+                           maxlength="255"
+                           name="Contact_Cellphone2"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                    Cell phone number of the contact person2
+                    </span>
+                </div>
+
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Start_DT"
+                                class="floating-box">
+                              starting date/time(REQUIRED)
+                         </label>
+                    </span>
+                    <input id="id_Start_DT"
+                           maxlength="255"
+                           name="Start_DT"
+                           type="text"
+                           value="" />
+                    <span class="helptext">
+                    starting date/time
+                    </span>
+                </div>
+
+
+
+                <div style="margin-top:10px">
+        <span class="right30percent">
+            <input type="submit" value="Add Now!" />
         </span>
                 </div>
 
             </form>
 
             <div style="margin-top:10px">
-        <span class="right20percent">
+        <span class="right30percent">
             <a class="text-center btn btn-primary"
                href="/">
                 Back to the main page</a>

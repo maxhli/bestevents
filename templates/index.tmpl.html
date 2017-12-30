@@ -10,8 +10,8 @@
           <a href="/" class="lang-logo">
               <img src="/static/lang-logo.png">
           </a>
-          <h1>Database Example for book management.</h1>
-          <p>SQL (THE most important), Golang, HTML/CSSS,Bootstrap, Heroku.</p>
+          <h1>Best Events.</h1>
+          <p>We manage events so that you don't need to send emails all the time</p>
       </div>
   </div>
 
@@ -19,7 +19,7 @@
 
   <div class="container">
 <div class="text-center" style="padding-bottom: 10px">
-      <a class="btn btn-success" href="/books/create">Create a new book</a>
+      <a class="btn btn-success" href="/events/create">Add a new Event</a>
 </div>
 
   <table class="table table-responsive table-striped
@@ -49,39 +49,39 @@
         {{ if .StartDt.Valid }}
             {{ .StartDt.String}}
         {{ else }}
-            &nbsp;
+            &nbsp;&nbsp;
         {{ end }}
         </td>
       <td>
       {{ if .EventName.Valid }}
             {{ .EventName.String}}
         {{ else }}
-          &nbsp;
+          &nbsp;&nbsp;
       {{ end }}
       </td>
       <td>
       {{ if .EventOrganization.Valid }}
             {{ .EventOrganization.String}}
         {{ else }}
-          &nbsp;
+          &nbsp;&nbsp;
       {{ end }}
       </td>
 
 
         <td class="text-center">
             <a class ="btn btn-primary"
-               href="/books/select/{{.EventNum.Int64}}">
+               href="/events/select/{{.EventNum.Int64}}">
                 <i class="icon-lg ion-more"
                    title="More...">
                 </i></a>
             <a class ="btn btn-warning"
-               href="/books/update/{{.EventNum.Int64}}">
+               href="/events/update/{{.EventNum.Int64}}">
                 <i class="icon-lg ion-edit"
                    title="Edit">
                 </i>
             </a>
             <a class ="btn btn-danger"
-               href="/books/delete/{{.EventNum.Int64}}">
+               href="/events/delete/{{.EventNum.Int64}}">
                 <i class="icon-lg ion-close-round"
                    title="Delete">
                 </i>

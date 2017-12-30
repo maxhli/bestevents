@@ -32,11 +32,11 @@
         <div class="col-md-12">
 
             <div>
-                <h3 class="text-center">Are you sure that you want to delete?</h3>
+                <h3 class="text-center">Are you sure that you really want to delete?</h3>
             </div>
-            <form action="/books/delete/{{.Isbn}}" method="post">
+            <form action="/events/delete/{{.EventNum.Int64}}" method="post">
 
-                <input type="hidden"  name = "Isbn" value="{{.Isbn}}"/>
+                <input type="hidden"  name = "EventNum" value="{{.EventNum.Int64}}"/>
 
 
                 <div>
