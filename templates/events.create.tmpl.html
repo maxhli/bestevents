@@ -8,21 +8,17 @@
             "manage events in one central location. No more emails back and forth">
 
 
-    <link rel="icon" type="image/x-icon"
-          href="/static/images/drawing-svg-i-hate-passwordv4.ico" />
-
-    <link href="/static/bootstrap3.3.6/css/bootstrap.min.css"
-          rel="stylesheet" media="screen">
-    <link href="/static/site.css"
-          rel="stylesheet" media="screen">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 
     <link href="/static/main.css"
           rel="stylesheet" media="screen">
 
 
     <link rel="stylesheet"
-          href=
-                  "//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+          href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
     >
 
 
@@ -57,7 +53,7 @@
                     <span class="right30percent">
                          <label for="id_Event_Organization"
                                 class="floating-box">
-                             Event Organization:</label>
+                              Organization:</label>
                     </span>
                                 <input id="id_Event_Organization"
                                        maxlength="255"
@@ -73,7 +69,7 @@
                     <span class="right30percent">
                          <label for="id_Organization_Street"
                                 class="floating-box">
-                              Organization Street:</label>
+                               Street:</label>
                     </span>
                     <input id="id_Organization_Street"
                            maxlength="255"
@@ -90,7 +86,7 @@
                     <span class="right30percent">
                          <label for="id_Organization_City"
                                 class="floating-box">
-                              Organization City:</label>
+                               City:</label>
                     </span>
                     <input id="id_Organization_City"
                            maxlength="255"
@@ -109,7 +105,7 @@
                     <span class="right30percent">
                          <label for="id_Organization_State"
                                 class="floating-box">
-                              Organization State:</label>
+                               State:</label>
                     </span>
                     <input id="id_Organization_State"
                            maxlength="255"
@@ -127,7 +123,7 @@
                     <span class="right30percent">
                          <label for="id_Organization_Zip"
                                 class="floating-box">
-                              Zip code of the organization:
+                              Zip:
                          </label>
                     </span>
                     <input id="id_Organization_Zip"
@@ -146,7 +142,7 @@
                     <span class="right30percent">
                          <label for="id_Contact_Name1"
                                 class="floating-box">
-                              Name of the contact person1:
+                              contact1:
                          </label>
                     </span>
                     <input id="id_Contact_Name1"
@@ -164,7 +160,7 @@
                     <span class="right30percent">
                          <label for="id_Contact_Cellphone1"
                                 class="floating-box">
-                              Cell phone number of the contact person1:
+                              Cell phone1:
                          </label>
                     </span>
                     <input id="id_Contact_Cellphone1"
@@ -181,18 +177,18 @@
 
                 <div style="margin-top:10px">
                     <span class="right30percent">
-                         <label for="id_Contact_Name1"
+                         <label for="id_Contact_Name2"
                                 class="floating-box">
-                              Name of the contact person1:
+                              Contact2:
                          </label>
                     </span>
-                    <input id="id_Contact_Name1"
+                    <input id="id_Contact_Name2"
                            maxlength="255"
-                           name="Contact_Name1"
+                           name="Contact_Name2"
                            type="text"
                            value="" />
                     <span class="helptext">
-                     Name of the contact person1
+                     Name of the contact person2
                     </span>
                 </div>
 
@@ -201,7 +197,7 @@
                     <span class="right30percent">
                          <label for="id_Contact_Cellphone2"
                                 class="floating-box">
-                              Cell phone number of the contact person2:
+                              Cell phone2:
                          </label>
                     </span>
                     <input id="id_Contact_Cellphone2"
@@ -218,25 +214,114 @@
                 <div style="margin-top:10px">
                     <span class="right30percent">
                          <label for="id_Start_DT"
-                                class="floating-box">
-                              starting date/time(REQUIRED)
+                                class="">
+                              Starting date/time
                          </label>
                     </span>
                     <input id="id_Start_DT"
                            maxlength="255"
                            name="Start_DT"
-                           type="text"
-                           value="" />
+                           type="datetime-local"
+                           value="" required/>
                     <span class="helptext">
-                    starting date/time
+                    Starting date/time (REQUIRED)
+                    </span>
+                </div>
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_End_DT"
+                                class="floating-box">
+                              Ending date/time
+                         </label>
+                    </span>
+                    <input id="id_End_DT"
+                           maxlength="255"
+                           name="End_DT"
+                           type="datetime-local"
+                           value="" required/>
+                    <span class="helptext">
+                    Ending date/time (REQUIRED)
+                    </span>
+                </div>
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Speaker"
+                                class="floating-box">
+                              Speaker
+                         </label>
+                    </span>
+                    <input id="id_Speaker"
+                           maxlength="255"
+                           name="Speaker"
+                           type="text"
+                           value=""/>
+                    <span class="helptext">
+                    Speaker
+                    </span>
+                </div>
+
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Title"
+                                class="floating-box">
+                              Title
+                         </label>
+                    </span>
+                    <input id="id_Title"
+                           maxlength="255"
+                           name="Title"
+                           type="text"
+                           value=""/>
+                    <span class="helptext">
+                    Title
+                    </span>
+                </div>
+
+                <div style="margin-top:10px">
+                    <span class="">
+                         <label for="id_Num_Of_Attendees"
+                                class="">
+                              Num of Attendees
+                         </label>
+                    </span>
+                    <input id="id_Num_Of_Attendees"
+                           maxlength="255"
+                           name="Num_Of_Attendees"
+                           type="number"
+                           placeholder="Estimated Numbers of Attendees"
+                           value=""
+                           min="0"
+                           max="99999"
+                           step="1"/>
+                    <span class="helptext">
+                    Estimated Numbers of Attendees
                     </span>
                 </div>
 
 
+                <div style="margin-top:10px">
+                    <span class="right30percent">
+                         <label for="id_Arranged_By"
+                                class="floating-box">
+                              Arranged By:
+                         </label>
+                    </span>
+                    <input id="id_Arranged_By"
+                           maxlength="255"
+                           name="Arranged_By"
+                           type="text"
+                           value=""/>
+                    <span class="helptext">
+                    Person who arranged the event
+                    </span>
+                </div>
+
 
                 <div style="margin-top:10px">
         <span class="right30percent">
-            <input type="submit" value="Add Now!" />
+            <input class="btn btn-primary" type="submit" value="Add Now!" />
         </span>
                 </div>
 

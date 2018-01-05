@@ -296,17 +296,64 @@ func main() {
 		Event_Name := c.PostForm("Event_Name")
 		Event_Organization := c.PostForm("Event_Organization")
 		Organization_Street := c.PostForm("Organization_Street")
+		Organization_City := c.PostForm("Organization_City")
+		Organization_State := c.PostForm("Organization_State")
+		Organization_Zip := c.PostForm("Organization_Zip")
+		Contact_Name1 := c.PostForm("Contact_Name1")
+		Contact_Cellphone1 := c.PostForm("Contact_Cellphone1")
+		Contact_Name2 := c.PostForm("Contact_Name2")
+		Contact_Cellphone2 := c.PostForm("Contact_Cellphone2")
 		Start_DT := c.PostForm("Start_DT")
+		End_DT := c.PostForm("End_DT")
+		Speaker := c.PostForm("Speaker")
+		Title := c.PostForm("Title")
 
+		Num_Of_Attendees := c.PostForm("Num_Of_Attendees")
+		int_Num_Of_Attendees, err := strconv.Atoi(Num_Of_Attendees)
+		if err == nil {
+			log.Fatal(err)
+		}
+
+		Arranged_By := c.PostForm("Arranged_By")
 
 		_, errInsert := db.
-		Exec("INSERT INTO events(event_name," +
-			" event_organization, organization_street," +
-				" start_dt) VALUES($1, $2, $3, $4)",
+		Exec("INSERT INTO events(" +
+			"event_name," +
+			"event_organization," +
+			"organization_street," +
+			"organization_city," +
+			"organization_state," +
+			"organization_zip," +
+			"contact_name1," +
+			"contact_cellphone1," +
+			"contact_name2," +
+			"contact_cellphone2," +
+			"start_dt," +
+			"end_dt," +
+			"speaker," +
+			"title," +
+			"num_of_attendees," +
+			"arranged_by" +
+			") VALUES($1, $2, $3, $4," +
+				     "$5, $6, $7, $8, " +
+			         "$9, $10, $11, $12, " +
+				     "$13, $14, $15, $16)",
 			Event_Name,
 			Event_Organization,
-		    Organization_Street,
-		    Start_DT)
+			Organization_Street,
+			Organization_City,
+			Organization_State,
+			Organization_Zip,
+			Contact_Name1,
+			Contact_Cellphone1,
+			Contact_Name2,
+			Contact_Cellphone2,
+			Start_DT,
+			End_DT,
+			Speaker,
+			Title,
+			int_Num_Of_Attendees,
+			Arranged_By)
 
 		if errInsert != nil {
 			log.Println("DB Insertion is in error.")
@@ -369,14 +416,14 @@ func main() {
 
 	router.POST("/events/update/:id", func(c *gin.Context) {
 
-		id := c.PostForm("id")
+		id := c.Param("id")
 		idInteger, err := strconv.Atoi(id)
 
 
 		Event_Name := c.PostForm("Event_Name")
 		Start_Dt := c.PostForm("Start_Dt")
 
-
+        fmt.Println("id is: ", id, "Event Name is:", Event_Name, "Start_Dt is:", Start_Dt)
 		// Update
 		stmt, err := db.Prepare(
 			"update events set event_name = $1, start_dt = $2 where event_num=$3")
